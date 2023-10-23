@@ -5,9 +5,10 @@ from tkinter import filedialog, messagebox
 def rename_files(directory, text_to_remove):
     files = os.listdir(directory)
     for file_name in files:
-        if text_to_remove in file_name:
-            new_file_name = file_name.replace(text_to_remove, '')
-            os.rename(os.path.join(directory, file_name), os.path.join(directory, new_file_name))
+        if text_to_remove not in file_name:
+            continue  # Skip this file if the text_to_remove is not found
+        new_file_name = file_name.replace(text_to_remove, '')
+        os.rename(os.path.join(directory, file_name), os.path.join(directory, new_file_name))
 
 def browse_directory():
     directory = filedialog.askdirectory()
