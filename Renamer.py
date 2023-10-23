@@ -8,7 +8,16 @@ def rename_files(directory, text_to_remove):
         if text_to_remove not in file_name:
             continue  # Skip this file if the text_to_remove is not found
         new_file_name = file_name.replace(text_to_remove, '')
+        
+        # Check if the new filename already exists
+        counter = 1
+        base_name, ext = os.path.splitext(new_file_name)
+        while os.path.exists(os.path.join(directory, new_file_name)):
+            new_file_name = f"{base_name} ({counter}){ext}"
+            counter += 1
+        
         os.rename(os.path.join(directory, file_name), os.path.join(directory, new_file_name))
+
 
 def browse_directory():
     directory = filedialog.askdirectory()
@@ -23,6 +32,7 @@ def start_renaming():
         return
     rename_files(directory, text_to_remove)
     messagebox.showinfo("Success", "Files renamed successfully!")
+    
 
 # Create the main window
 root = tk.Tk()
